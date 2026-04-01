@@ -13,18 +13,15 @@ def load_csv_data():
         print(f"Error: The file '{filename}' was not found.")
         sys.exit(1)
 
-    assignments = []
     try:
         with open(filename, mode='r', encoding='utf-8') as file:
             reader = csv.DictReader(file)
-            for row in reader:
-                # Convert score and weight to floats for arithmetic
-                assignments.append({
-                    'assignment': row['assignment'],
-                    'group': row['group'],
-                    'score': float(row['score']),
-                    'weight': float(row['weight'])
-                })
+            # List comprehension to parse each row; converts numeric fields to floats
+            assignments = [
+                {'assignment': row['assignment'], 'group': row['group'],
+                 'score': float(row['score']), 'weight': float(row['weight'])}
+                for row in reader
+            ]
     except Exception as e:
         print(f"An error occurred while reading the file: {e}")
         sys.exit(1)
